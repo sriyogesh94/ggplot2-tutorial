@@ -164,12 +164,12 @@
 
 <p>Your fist step should be to install and load the ggplot2 package.</p>
 
-<pre class = 'prettyprint lang-r'># first we need to install the ggplot and some supporting libraries 
+<pre class = 'prettyprint lang-r'># first we need to install the ggplot and some supporting libraries
 # (skip this step if the library is already loaded)
 install.packages(&quot;ggplot2&quot;)</pre>
 
 <pre class = 'prettyprint lang-r'># we will require the ggplot2 package for our graphics
-# note: there are some additional useful packages such as plyr, 
+# note: there are some additional useful packages such as plyr,
 #  reshape2 and scales which you may find useful
 require(&quot;ggplot2&quot;)</pre>
 
@@ -290,7 +290,7 @@ qplot(wt, mpg, data=mtcars, colour=qsec)</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/mapping%20vs%20setting-2.png" title="" alt="" width="720" /></p>
 
-<pre class = 'prettyprint lang-r'># note: in this example ggplot is trying to map the size of a point 
+<pre class = 'prettyprint lang-r'># note: in this example ggplot is trying to map the size of a point
 #  to a scale of [10] (which is probably not as intended)
 qplot(wt, mpg, data=mtcars, color=qsec, size=10)</pre>
 
@@ -327,13 +327,13 @@ head(mtcars)</pre>
 
 <pre class = 'prettyprint lang-r'>summary(mtcars$cyl)</pre>
 
-<pre >##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+<pre >##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.
 ##   4.000   4.000   6.000   6.188   8.000   8.000</pre>
 
 <pre class = 'prettyprint lang-r'>table(mtcars$cyl)</pre>
 
-<pre >## 
-##  4  6  8 
+<pre >##
+##  4  6  8
 ## 11  7 14</pre>
 
 <pre class = 'prettyprint lang-r'># regular numeric variables will be mapped to a continuous scale
@@ -388,7 +388,7 @@ qplot(wt, mpg, data=mtcars) + geom_line() + geom_point(size=4)</pre>
 </article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
 
 <pre class = 'prettyprint lang-r'># a plot can be flipped by 90°
-# note: coord_flip() will rotate the plot after calculation of 
+# note: coord_flip() will rotate the plot after calculation of
 #  any summary statistics (i.e. smoothers or alike)
 qplot(factor(cyl), data=mtcars)</pre>
 
@@ -545,10 +545,10 @@ summary(p.myplot)</pre>
 
 <pre >## data: temperature, pressure [19x2]
 ## mapping:  x = temperature, y = pressure
-## faceting: facet_null() 
+## faceting: facet_null()
 ## -----------------------------------
-## geom_point: na.rm = FALSE, size = 4 
-## stat_identity:  
+## geom_point: na.rm = FALSE, size = 4
+## stat_identity:
 ## position_identity: (width = NULL, height = NULL)</pre>
 
 <pre class = 'prettyprint lang-r'># the plot can be printed by just calling the object or using print()
@@ -560,7 +560,7 @@ p.myplot</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/ggplot%20objects-2.png" title="" alt="" width="720" /></p>
 
-<pre class = 'prettyprint lang-r'># the underlying data is saved within the ggplot-object. modifications of 
+<pre class = 'prettyprint lang-r'># the underlying data is saved within the ggplot-object. modifications of
 # the data will not alter the plot if the plot-code is not rerun.
 # there is however a special syntax to run the plot with updated data
 pressure2 &lt;- data.frame(
@@ -585,15 +585,15 @@ ggsave(file=&quot;testplot.png&quot;, plot=p.myplot, dpi=72, width=10, height=5)
 p.myplot &lt;- ggplot(pressure) + aes(x=temperature, y=pressure)
 
 # using multiple layers
-p.myplot + 
-    geom_point(color=&quot;purple3&quot;, size=6) + 
+p.myplot +
+    geom_point(color=&quot;purple3&quot;, size=6) +
     geom_line(color=&quot;steelblue2&quot;, size=2)</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/order%20of%20layers-1.png" title="" alt="" width="720" /></p>
 
-<pre class = 'prettyprint lang-r'># the order of the layers does mather 
+<pre class = 'prettyprint lang-r'># the order of the layers does mather
 # (each new layer is drawn on top of the previous)
-p.myplot + 
+p.myplot +
     geom_line(color=&quot;steelblue&quot;, size=2) +
     geom_point(color=&quot;purple3&quot;, size=6)</pre>
 
@@ -603,17 +603,17 @@ p.myplot +
 
 <pre class = 'prettyprint lang-r'># aesthetics defined in the base layer will be used for all layers
 # note: setting attributes to a value will not apply it to other layers
-ggplot(pressure, aes(x=temperature, y=pressure), color=&quot;red&quot;) + 
-    geom_line(size=4, alpha=0.3) + 
+ggplot(pressure, aes(x=temperature, y=pressure), color=&quot;red&quot;) +
+    geom_line(size=4, alpha=0.3) +
     geom_point(size=4)</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/aesthetics%20and%20settings%20for%20multiple%20layers-1.png" title="" alt="" width="720" /></p>
 
 </article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
 
-<pre class = 'prettyprint lang-r'># the actual arguments to map variables is mapping=«aes()» and 
+<pre class = 'prettyprint lang-r'># the actual arguments to map variables is mapping=«aes()» and
 # geom_params=«list()» to set variables respectively
-ggplot(pressure) + 
+ggplot(pressure) +
     geom_point(
         mapping=aes(x=temperature, y=pressure, color=factor(temperature)),
         geom_params=list(size=4, shape=18)
@@ -630,7 +630,7 @@ ggplot(pressure) +
 </article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
 
 <pre class = 'prettyprint lang-r'># it is possible to mix qplot and ggplot
-qplot(temperature, pressure, data=pressure, geom=&quot;line&quot;, lty=I(&quot;dashed&quot;)) + 
+qplot(temperature, pressure, data=pressure, geom=&quot;line&quot;, lty=I(&quot;dashed&quot;)) +
     geom_point(size=4)</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/various%20syntax%20options-1.png" title="" alt="" width="720" /></p>
@@ -664,7 +664,7 @@ ggplot(pressure) +
 </article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
 
 <pre class = 'prettyprint lang-r'># setup our plot with default scales
-p.myplot &lt;- ggplot(pressure) + 
+p.myplot &lt;- ggplot(pressure) +
     aes(temperature, pressure, color=factor(temperature)) +
     geom_point(size=4)
 
@@ -681,8 +681,8 @@ p.myplot</pre>
 <p><img src="ggplot2-tutorial-2015_files/figure-html/scales-2.png" title="" alt="" width="720" /></p>
 
 <pre class = 'prettyprint lang-r'># scales that are used as axes will take the name as axis label
-p.myplot + 
-    scale_color_discrete(name=&quot;Temperature \nin C°&quot;) + 
+p.myplot +
+    scale_color_discrete(name=&quot;Temperature \nin C°&quot;) +
     scale_y_continuous(name=&quot;Air pressure at sea level&quot;)</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/scales-3.png" title="" alt="" width="720" /></p>
@@ -759,8 +759,8 @@ p.myplot + aes(fill=cut) + scale_fill_manual(
 <pre class = 'prettyprint lang-r'># using predefinded colors for specific values
 # note: values that are not present in the data will not be shown
 p.myplot + aes(fill=cut) + scale_fill_manual(
-    values = c(&quot;Fair&quot;=&quot;#083642&quot;, &quot;Good&quot;=&quot;#466b5d&quot;, 
-                         &quot;Very Good&quot;=&quot;#7fc6bc&quot;,&quot;Premium&quot;=&quot;#cdef9c&quot;, 
+    values = c(&quot;Fair&quot;=&quot;#083642&quot;, &quot;Good&quot;=&quot;#466b5d&quot;,
+                         &quot;Very Good&quot;=&quot;#7fc6bc&quot;,&quot;Premium&quot;=&quot;#cdef9c&quot;,
                          &quot;Ideal&quot;=&quot;#b1df01&quot;, &quot;Not specified&quot;=&quot;#ffffff&quot;))</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/custom%20color%20scales-2.png" title="" alt="" width="720" /></p>
@@ -769,7 +769,7 @@ p.myplot + aes(fill=cut) + scale_fill_manual(
 # note: you must specify colors for all existing values
 p.myplot + scale_fill_manual(
     name=&quot;Colors&quot;,
-    values = c(&quot;D&quot;=&quot;#083642&quot;, &quot;E&quot;=&quot;#466b5d&quot;, &quot;F&quot;=&quot;#7fc6bc&quot;,&quot;G&quot;=&quot;#cdef9c&quot;, 
+    values = c(&quot;D&quot;=&quot;#083642&quot;, &quot;E&quot;=&quot;#466b5d&quot;, &quot;F&quot;=&quot;#7fc6bc&quot;,&quot;G&quot;=&quot;#cdef9c&quot;,
                          &quot;H&quot;=&quot;#b1df01&quot;, &quot;I&quot;=&quot;#ababab&quot;, &quot;J&quot;=&quot;#ececec&quot;),
     breaks = c(&quot;D&quot;, &quot;E&quot;, &quot;F&quot;),
     labels = c(&quot;E&quot;=&quot;Dark Green&quot;, &quot;D&quot;=&quot;Esmerald&quot;, &quot;F&quot;=&quot;Wood&quot;))</pre>
@@ -808,7 +808,7 @@ p.myplot + aes(alpha=color)</pre>
 <p><img src="ggplot2-tutorial-2015_files/figure-html/handling%20transparency%20in%20legends-1.png" title="" alt="" width="720" /></p>
 
 <pre class = 'prettyprint lang-r'># remove the alpha transparency for the legend
-p.myplot + aes(alpha=color) + 
+p.myplot + aes(alpha=color) +
     guides(fill = guide_legend( override.aes=list(alpha=1) ))</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/handling%20transparency%20in%20legends-2.png" title="" alt="" width="720" /></p>
@@ -917,7 +917,7 @@ p.myplot + geom_smooth()</pre>
 
 </article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
 
-<pre class = 'prettyprint lang-r'># define a base plot to illustrate transformation 
+<pre class = 'prettyprint lang-r'># define a base plot to illustrate transformation
 p.myplot &lt;- ggplot(mtcars) + aes(x=disp, y=mpg) + geom_point(size=4) +
     geom_smooth(method=&quot;lm&quot;, se=FALSE)
 
@@ -926,21 +926,21 @@ p.myplot</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/scale%20and%20coord%20transformations-1.png" title="" alt="" width="720" /></p>
 
-<pre class = 'prettyprint lang-r'># apply a logarhithmic transformation 
+<pre class = 'prettyprint lang-r'># apply a logarhithmic transformation
 p.myplot + scale_x_continuous(trans=&quot;log&quot;, name=&quot;log(disp)&quot;)</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/scale%20and%20coord%20transformations-2.png" title="" alt="" width="720" /></p>
 
 <pre class = 'prettyprint lang-r'># apply a log-transformation on the y-axis, add a linear regression and
 # transform the display of the scale back with exponentation
-p.myplot + scale_x_continuous(trans=&quot;log&quot;) + 
+p.myplot + scale_x_continuous(trans=&quot;log&quot;) +
     coord_trans(x=&quot;exp&quot;) +
     xlab(&quot;exp(log(disp)) = disp&quot;)</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/scale%20and%20coord%20transformations-3.png" title="" alt="" width="720" /></p>
 
 <pre class = 'prettyprint lang-r'># adjust the y-scale breaks to match our original non transformed plot
-p.myplot + scale_x_continuous(trans=&quot;log&quot;, breaks=seq(100,400,100)) + 
+p.myplot + scale_x_continuous(trans=&quot;log&quot;, breaks=seq(100,400,100)) +
     coord_trans(x=&quot;exp&quot;) +
     xlab(&quot;exp(log(disp)) = disp&quot;)</pre>
 
@@ -975,7 +975,7 @@ ggplot(mtcars, aes(x=disp, y=mpg, color=factor(am))) + geom_point(size=4) +
 
 <pre class = 'prettyprint lang-r'># use facets to split the data
 p.myplot &lt;- ggplot(mtcars) +
-    aes(x=disp, y=mpg, color=factor(am)) + 
+    aes(x=disp, y=mpg, color=factor(am)) +
     geom_point(size=4) +
     geom_smooth(method=&quot;lm&quot;, se=FALSE, lty=&quot;dashed&quot;)
 
@@ -1020,16 +1020,16 @@ p.myplot + geom_point(size=4, color=&quot;purple3&quot;)</pre>
 <p><img src="ggplot2-tutorial-2015_files/figure-html/annotations-1.png" title="" alt="" width="720" /></p>
 
 <pre class = 'prettyprint lang-r'># a plot with some simple annotations
-p.myplot + 
-    annotate(&quot;rect&quot;, 
+p.myplot +
+    annotate(&quot;rect&quot;,
                      fill=&quot;lightsteelblue&quot;, alpha=0.4,
-                     xmin=3, xmax=4, ymin=12, ymax=20.5) + 
-    annotate(&quot;segment&quot;, 
-                     size = 1, color=&quot;steelblue&quot;, 
+                     xmin=3, xmax=4, ymin=12, ymax=20.5) +
+    annotate(&quot;segment&quot;,
+                     size = 1, color=&quot;steelblue&quot;,
                      arrow = grid::arrow(length=grid::unit(1, &quot;char&quot;)),
                      x=4.73, y=30.5, xend=3.8, yend=21) +
-    annotate(&quot;text&quot;, label=&quot;A custom region&quot;, 
-                     x=4.32, y=31.2, hjust=0, vjust=0, color=&quot;steelblue&quot;, size=6) + 
+    annotate(&quot;text&quot;, label=&quot;A custom region&quot;,
+                     x=4.32, y=31.2, hjust=0, vjust=0, color=&quot;steelblue&quot;, size=6) +
     geom_point(size=4, color=&quot;purple3&quot;)  </pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/annotations-2.png" title="" alt="" width="720" /></p>
@@ -1042,7 +1042,7 @@ p.myplot +
 
 <pre class = 'prettyprint lang-r'># we create a function, that will calculate the coordinates for stripes that
 # are contained to the given rect coordinates
-# note: this involves some trigonometry and is outside 
+# note: this involves some trigonometry and is outside
 #   the scoope of this tutorial
 stripesInRect &lt;- function(angle=45, distance=0.5, xmin=0, xmax=10, ymin=0, ymax=10) {
     # this function will calculate a data.frame of vectors for a
@@ -1130,22 +1130,22 @@ stripesInRect &lt;- function(angle=45, distance=0.5, xmin=0, xmax=10, ymin=0, ym
 
 
 # calculate the pattern coordinates for our plot
-pattern &lt;- stripesInRect(angle=80, distance=0.25, 
+pattern &lt;- stripesInRect(angle=80, distance=0.25,
         xmin=3, xmax=4, ymin=12, ymax=20.5)
 
 # create the plot with a striped background for the annotation
 # note: annotation aesthetics are not mapped but will be processed as vectors
-p.myplot + 
-    annotate(&quot;segment&quot;, 
+p.myplot +
+    annotate(&quot;segment&quot;,
                      size = 0.5, color=&quot;deeppink&quot;, alpha=0.25,
-                     x=pattern$x1, y = pattern$y1, 
-                     xend = pattern$x2, yend = pattern$y2) + 
-    annotate(&quot;segment&quot;, 
-                     size = 1, color=&quot;deeppink&quot;, 
+                     x=pattern$x1, y = pattern$y1,
+                     xend = pattern$x2, yend = pattern$y2) +
+    annotate(&quot;segment&quot;,
+                     size = 1, color=&quot;deeppink&quot;,
                      arrow = grid::arrow(length=grid::unit(1, &quot;char&quot;)),
                      x=4.73, y=30.5, xend=3.8, yend=21) +
-    annotate(&quot;text&quot;, label=&quot;A custom region&quot;, 
-                     x=4.32, y=31.2, hjust=0, vjust=0, color=&quot;deeppink&quot;, size=6) + 
+    annotate(&quot;text&quot;, label=&quot;A custom region&quot;,
+                     x=4.32, y=31.2, hjust=0, vjust=0, color=&quot;deeppink&quot;, size=6) +
     geom_point(size=4, color=&quot;purple3&quot;)  </pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/drawing%20a%20striped%20pattern-1.png" title="" alt="" width="720" /></p>
@@ -1163,7 +1163,7 @@ p.myplot +
 </article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
 
 <pre class = 'prettyprint lang-r'># define our plot to illustrate theming
-p.myplot &lt;- ggplot(pressure) + 
+p.myplot &lt;- ggplot(pressure) +
     aes(temperature, pressure, color=factor(temperature)) +
     geom_point(size=4)
 
@@ -1184,28 +1184,28 @@ p.myplot + theme_bw()</pre>
 # note: more options can be found in the documentation
 #  theme modifications may require some understanding of the grid-package
 p.myplot + theme(
-    legend.position=&quot;top&quot;, 
+    legend.position=&quot;top&quot;,
     legend.margin=grid::unit(1, &quot;cm&quot;))</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/custom%20theme%20modifications-1.png" title="" alt="" width="720" /></p>
 
 <pre class = 'prettyprint lang-r'># legends usually need some further specific adjustments
 p.myplot + theme(
-    legend.position=&quot;bottom&quot;, 
+    legend.position=&quot;bottom&quot;,
     legend.margin=grid::unit(1, &quot;cm&quot;)) +
  guides(
-    color=guide_legend(&quot;Temperature&quot;, nrow=2, 
+    color=guide_legend(&quot;Temperature&quot;, nrow=2,
                                          title.position=&quot;top&quot;, byrow=TRUE))</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/custom%20theme%20modifications-2.png" title="" alt="" width="720" /></p>
 
 <pre class = 'prettyprint lang-r'># use combination of geoms and specific stat for bin calculation
 # note: values from stat-calculations can be accessed via ..«parameter»..
-ggplot(mtcars) + aes(x=factor(gear)) + 
+ggplot(mtcars) + aes(x=factor(gear)) +
     layer(
         stat = &quot;bin&quot;,
-        geom = &quot;linerange&quot;, 
-        geom_params = list(ymin=0, size=0.5, color=&quot;blue&quot;), 
+        geom = &quot;linerange&quot;,
+        geom_params = list(ymin=0, size=0.5, color=&quot;blue&quot;),
         mapping = aes(ymax=..count..)) +
     layer(
         stat = &quot;bin&quot;,
@@ -1228,16 +1228,16 @@ latticebars &lt;- function(color = &quot;blue&quot;) {
         geom = &quot;linerange&quot;, stat = &quot;bin&quot;,
         mapping = aes(ymax=..count..),
         geom_params = list(ymin=0, size=0.5, color=color))
-        
+
     layer2 &lt;- layer(
-        geom = &quot;point&quot;, stat = &quot;bin&quot;, 
+        geom = &quot;point&quot;, stat = &quot;bin&quot;,
         geom_params = list(size=3, color=color))
-    
+
     layer3 &lt;- layer(
          geom = &quot;text&quot;, stat = &quot;bin&quot;,
         mapping = aes(label=..count..),
         geom_params = list(vjust=-0.8, color=color))
-        
+
     # note: ggplot2 elements can also be combined by creating
     #  a list of the separate components. +-symbol might
     #  throw an error if used inside of a function
@@ -1245,14 +1245,14 @@ latticebars &lt;- function(color = &quot;blue&quot;) {
 }
 
 # create a lattice like barplot with default color
-ggplot(mtcars) + aes(x=factor(gear)) + 
+ggplot(mtcars) + aes(x=factor(gear)) +
     latticebars()</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/a%20resusable%20lattice-like%20barplot%20function-1.png" title="" alt="" width="720" /></p>
 
 <pre class = 'prettyprint lang-r'># easily change the color of the plot
-ggplot(mtcars) + aes(x=factor(gear)) + 
-    latticebars(&quot;red&quot;) + 
+ggplot(mtcars) + aes(x=factor(gear)) +
+    latticebars(&quot;red&quot;) +
     xlab(&quot;Type of Gear\n&quot;) + ylab(&quot;\nNumber of Items&quot;)</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/a%20resusable%20lattice-like%20barplot%20function-2.png" title="" alt="" width="720" /></p>
@@ -1270,13 +1270,13 @@ require(&quot;grid&quot;)</pre>
 vp.setup &lt;- function(x,y){
     # create a new layout with grid
     grid.newpage()
-    
-    # define viewports and assign it to grid layout 
+
+    # define viewports and assign it to grid layout
     pushViewport(viewport(layout = grid.layout(x,y)))
 }
 
 # convenience function to easily access layout (row, col)
-vp.layout &lt;- function(x,y){ 
+vp.layout &lt;- function(x,y){
     viewport(layout.pos.row=x, layout.pos.col=y)
 }</pre>
 
@@ -1291,8 +1291,8 @@ p.c &lt;- qplot(mpg, wt, data=mtcars, geom=&quot;step&quot;)
 vp.setup(2,2)
 
 # plot all graphics into our layout
-print(p.a, vp=vp.layout(1, 1:2)) 
-print(p.b, vp=vp.layout(2, 1)) 
+print(p.a, vp=vp.layout(1, 1:2))
+print(p.b, vp=vp.layout(2, 1))
 print(p.c, vp=vp.layout(2, 2))</pre>
 
 <p><img src="ggplot2-tutorial-2015_files/figure-html/multiple%20plots%20in%20on%20graphic-1.png" title="" alt="" width="720" /></p></article></slide>
@@ -1333,6 +1333,137 @@ print(p.c, vp=vp.layout(2, 2))</pre>
     }
   })();
 </script>
+
+<!-- The code below will add some custom formatting and keyboard navigation
+     to ioslides. Insert the code just before the closing body tag (</tbody>) -->
+
+<style type="text/css">
+
+  article {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    margin-left: -60px;
+    padding-left: 60px;
+    padding-bottom: 160px;
+    box-sizing: border-box;
+  }
+
+  article pre.prettyprint.lang-r:before{
+    content: '';
+    display: block;
+    height: 100%;
+    width: 60px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: #e6e6e6;
+  }
+
+   p + pre.prettyprint.lang-r, pre + pre.prettyprint.lang-r {
+    margin-top: 80px;
+  }
+
+  @media print {
+      slides {
+        height: auto !important;
+      }
+
+      slide {
+        page-break-inside: avoid;
+      }
+
+      article p, article pre {
+        page-break-inside: avoid;
+      }
+    }
+</style>
+
+<script>
+  function slideVertical(event){
+
+    // handle only pressing of y (down) or a (up)
+    if (event.keyCode == 89 || event.keyCode == 65) {
+
+      var direction = null;
+      var codeBlock = null;
+
+      // set the direction of traversal
+      if (event.keyCode == 89) {
+        direction = "down";
+      } else {
+        direction = "up";
+      }
+
+      // get the current article
+      var article = document.querySelector('slide.current article');
+
+      // select all code blocks in the article
+      var allBlocks = document.querySelectorAll('slide.current article pre.prettyprint');
+
+      // jump slides if not code blocks are present
+      if (allBlocks.length === 0) {
+        if (direction === "down") {
+          slidedeck.nextSlide();
+        } else {
+          slidedeck.prevSlide();
+        }
+        return;
+      }
+
+      // get the index of the currently active elements
+      currentIndex = Array.prototype.reduce.call(allBlocks, function(previousValue, currentItem, index) {
+        if (currentItem.className.includes('active-item')) {
+          return index;
+        }
+        return previousValue;
+      }, null);
+
+      // remove the active-item class from all codeblocks
+      Array.prototype.map.call(allBlocks, function(item){
+        item.className = item.className.replace(/\bactive-item\b/, '').trim();
+      });
+
+      // set the current index to zero (first element) if no active element was found
+      if (currentIndex === null) {
+        currentIndex = 0;
+      }
+
+      // get the next/previous code block item
+      if (direction === "down") {
+        if (currentIndex < allBlocks.length - 1 ) {
+          codeBlock = allBlocks[currentIndex + 1];
+        } else {
+          codeBlock = allBlocks[currentIndex];
+          slidedeck.nextSlide();
+        }
+
+      } else {
+        if (currentIndex >= 1) {
+          codeBlock = allBlocks[currentIndex - 1];
+        } else {
+          codeBock = allBlocks[0];
+          slidedeck.prevSlide();
+        }
+
+      }
+
+      // if we are not at the last codeBlock
+      if (codeBlock !== null) {
+        // add the class active item to the code-block
+        codeBlock.className = codeBlock.className + " active-item";
+
+        // scroll/jump to the respective codeBlock
+        article.scrollTop = codeBlock.offsetTop - article.offsetTop;
+      }
+
+    }
+
+  }
+
+  document.addEventListener('keydown', slideVertical, true);
+</script>
+
 
 </body>
 </html>
