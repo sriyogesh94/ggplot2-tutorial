@@ -1,0 +1,129 @@
+<!-- The code below will add some custom formatting and keyboard navigation
+     to ioslides. Insert the code just before the closing body tag (</tbody>) -->
+
+<style type="text/css">
+
+	article {
+		width: 100%;
+		height: 100%;
+		overflow-y: auto;
+		margin-left: -60px;
+		padding-left: 60px;
+		padding-bottom: 160px;
+		box-sizing: border-box;
+	}
+
+	article pre.prettyprint.lang-r:before{
+		content: '';
+		display: block;
+		height: 100%;
+		width: 60px;
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		background-color: #e6e6e6;
+	}
+
+	 p + pre.prettyprint.lang-r, pre + pre.prettyprint.lang-r {
+		margin-top: 80px;
+	}
+
+	@media print {
+	    slides {
+	      height: auto !important;
+	    }
+
+	    slide {
+	      page-break-inside: avoid;
+	    }
+
+	    article p, article pre {
+	      page-break-inside: avoid;
+	    }
+	  }
+</style>
+
+<script>
+	function slideVertical(event){
+
+		// handle only pressing of y (down) or a (up)
+		if (event.keyCode == 89 || event.keyCode == 65) {
+
+			var direction = null;
+			var codeBlock = null;
+
+			// set the direction of traversal
+			if (event.keyCode == 89) {
+				direction = "down";
+			} else {
+				direction = "up";
+			}
+
+			// get the current article
+			var article = document.querySelector('slide.current article');
+
+			// select all code blocks in the article
+			var allBlocks = document.querySelectorAll('slide.current article pre.prettyprint');
+
+			// jump slides if not code blocks are present
+			if (allBlocks.length === 0) {
+				if (direction === "down") {
+					slidedeck.nextSlide();
+				} else {
+					slidedeck.prevSlide();
+				}
+				return;
+			}
+
+			// get the index of the currently active elements
+			currentIndex = Array.prototype.reduce.call(allBlocks, function(previousValue, currentItem, index) {
+				if (currentItem.className.includes('active-item')) {
+					return index;
+				}
+				return previousValue;
+			}, null);
+
+			// remove the active-item class from all codeblocks
+			Array.prototype.map.call(allBlocks, function(item){
+				item.className = item.className.replace(/\bactive-item\b/, '').trim();
+			});
+
+			// set the current index to zero (first element) if no active element was found
+			if (currentIndex === null) {
+				currentIndex = 0;
+			}
+
+			// get the next/previous code block item
+			if (direction === "down") {
+				if (currentIndex < allBlocks.length - 1 ) {
+					codeBlock = allBlocks[currentIndex + 1];
+				} else {
+					codeBlock = allBlocks[currentIndex];
+					slidedeck.nextSlide();
+				}
+
+			} else {
+				if (currentIndex >= 1) {
+					codeBlock = allBlocks[currentIndex - 1];
+				} else {
+					codeBock = allBlocks[0];
+					slidedeck.prevSlide();
+				}
+
+			}
+
+			// if we are not at the last codeBlock
+			if (codeBlock !== null) {
+				// add the class active item to the code-block
+				codeBlock.className = codeBlock.className + " active-item";
+
+				// scroll/jump to the respective codeBlock
+				article.scrollTop = codeBlock.offsetTop - article.offsetTop;
+			}
+
+		}
+
+	}
+
+	document.addEventListener('keydown', slideVertical, true);
+</script>

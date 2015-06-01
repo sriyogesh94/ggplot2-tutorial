@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tutorial ggplot2</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="generator" content="pandoc" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="stylesheet" media="all" href="ggplot2-tutorial-2015_files/ioslides-13.5.1/fonts/fonts.css">
+
+  <link rel="stylesheet" media="all" href="ggplot2-tutorial-2015_files/ioslides-13.5.1/theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="ggplot2-tutorial-2015_files/ioslides-13.5.1/theme/css/phone.css">
+
+  <base target="_blank">
+
+  <script type="text/javascript">
+    var SLIDE_CONFIG = {
+      // Slide settings
+      settings: {
+                title: 'Tutorial ggplot2',
+                        useBuilds: true,
+        usePrettify: true,
+        enableSlideAreas: true,
+        enableTouch: true,
+              },
+
+      // Author information
+      presenters: [
+            {
+        name:  'Dr. med. Ramon Saccilotto, Departement of Clinical Research,<br> University Hospital Basel, Switzerland, June 1st 2015' ,
+        company: '',
+        gplus: '',
+        twitter: '',
+        www: '',
+        github: ''
+      },
+            ]
+    };
+  </script>
+
+  <style type="text/css">
+
+    b, strong {
+      font-weight: bold;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    slides > slide {
+      -webkit-transition: all 0.4s ease-in-out;
+      -moz-transition: all 0.4s ease-in-out;
+      -o-transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    .auto-fadein {
+      -webkit-transition: opacity 0.6s ease-in;
+      -webkit-transition-delay: 0.4s;
+      -moz-transition: opacity 0.6s ease-in 0.4s;
+      -o-transition: opacity 0.6s ease-in 0.4s;
+      transition: opacity 0.6s ease-in 0.4s;
+      opacity: 0;
+    }
+
+  </style>
+
+
+
+</head>
+
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="title-slide segue nobackground">
+        <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+          </hgroup>
+  </slide>
+
+<slide class=''><hgroup><h2>The ggplot2 package</h2></hgroup><article  id="the-ggplot2-package">
+
+<p>In essence ggplot2 is a collection of functions that will help you to create maintainable and publication ready plots in an efficient manner.</p>
+
+<p>The package was developed by <a href='http://had.co.nz' title=''>Hadley Wickham, assistant professor of statistics at Rice University, New Zealand</a> and is currently maintained by the author himself and a number of volunteers on github.</p>
+
+<p>Descriptions and examples of almost all of the packages functions can be found in the fantastic <a href='http://docs.ggplot2.org/current/' title=''>online documentation</a>.</p>
+
+</article></slide><slide class=''><hgroup><h2>The ggplot2 package</h2></hgroup><article  id="the-ggplot2-package-1">
+
+<p>If you are using ggplot on a regular basis, I highly recommend to read at least one of the following books for further information:</p>
+
+<ul>
+<li>H.Wickham, ggplot2, Use R</li>
+<li>Paul Murrell, R Graphics, Second Edition</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Philosophy</h2></hgroup><article  id="philosophy">
+
+<blockquote>
+<p>«ggplot2 is an R package for producing statistical, or data, graphics, but it is unlike most other graphics packages because it has a deep underlying grammar.»</p>
+</blockquote>
+
+<blockquote>
+<p>«This grammar, based on the Grammar of Graphics (Wilkinson, 2005), is composed of a set of independent components that can be composed in many different ways. [..]»</p>
+</blockquote>
+
+<blockquote>
+<p>«Plots can be built up iteratively and edited later.»</p>
+</blockquote>
+
+<blockquote>
+<p>«A carefuly chosen set of defaults means that most of the time you can produce a publication-quality graphic in seconds, but if you do have speical formatting requirements, a comprehensive theming system makes it easy to do what you want. [..]»</p>
+</blockquote>
+
+</article></slide><slide class=''><hgroup><h2>Philosophy</h2></hgroup><article  id="philosophy-1">
+
+<blockquote>
+<p>«ggplot2 is designed to work in a layered fashion, starting with a layer showing the raw data then adding layers of annotation and statistical summaries. [..]»</p>
+</blockquote>
+
+<blockquote>
+<p>«ggplot2 is a plotting system for R, based on the grammar of graphics, which tries to take the good parts of base and latticegraphics and none of the bad parts.»</p>
+</blockquote>
+
+<blockquote>
+<p>«It takes care of many of the fiddly details that make plotting a hassle (like drawing legends) as well as providing a powerful model of graphics that makes it easy to produce complex multi-layered graphics.»</p>
+</blockquote>
+
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Tutorial</h2></hgroup><article  id="tutorial">
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<blockquote>
+<p>This tutorial is intended to give you a brief overview of the amazing ggplot2 package (currently at version 1.0.1).</p>
+</blockquote>
+
+<blockquote>
+<p>After completion you should be able to quickly create a variety of different plots and have the necessary understanding to adapt the plots to your specific needs.</p>
+</blockquote>
+
+<blockquote>
+<p>Please note however, that we will not cover all the functionality of the ggplot2 package.</p>
+</blockquote>
+
+<blockquote>
+<p>More information and examples of almost all functions and plot types can be found in the <a href='http://docs.ggplot2.org/current/' title=''>online documentation</a></p>
+</blockquote>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<p>Your fist step should be to install and load the ggplot2 package.</p>
+
+<pre class = 'prettyprint lang-r'># first we need to install the ggplot and some supporting libraries 
+# (skip this step if the library is already loaded)
+install.packages(&quot;ggplot2&quot;)</pre>
+
+<pre class = 'prettyprint lang-r'># we will require the ggplot2 package for our graphics
+# note: there are some additional useful packages such as plyr, 
+#  reshape2 and scales which you may find useful
+require(&quot;ggplot2&quot;)</pre>
+
+</article></slide><slide class=''><hgroup><h2>Some data included in the package</h2></hgroup><article  id="some-data-included-in-the-package">
+
+<pre class = 'prettyprint lang-r'># prices of 50&#39;000 sparkly round cut diamonds
+head(diamonds)</pre>
+
+<pre >##   carat       cut color clarity depth table price    x    y    z
+## 1  0.23     Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43
+## 2  0.21   Premium     E     SI1  59.8    61   326 3.89 3.84 2.31
+## 3  0.23      Good     E     VS1  56.9    65   327 4.05 4.07 2.31
+## 4  0.29   Premium     I     VS2  62.4    58   334 4.20 4.23 2.63
+## 5  0.31      Good     J     SI2  63.3    58   335 4.34 4.35 2.75
+## 6  0.24 Very Good     J    VVS2  62.8    57   336 3.94 3.96 2.48</pre>
+
+<pre class = 'prettyprint lang-r'># motor trend car road tests
+head(mtcars)</pre>
+
+<pre >##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</pre>
+
+<pre class = 'prettyprint lang-r'># vapor pressure of mercury at certain temperatures
+head(pressure)</pre>
+
+<pre >##   temperature pressure
+## 1           0   0.0002
+## 2          20   0.0012
+## 3          40   0.0060
+## 4          60   0.0300
+## 5          80   0.0900
+## 6         100   0.2700</pre>
+
+</article></slide><slide class=''><hgroup><h2>How to use ggplot</h2></hgroup><article  id="how-to-use-ggplot">
+
+<ul>
+<li>In contrast to the regular plot() function, ggplot is based on the grid- package for drawing all plots (as is lattice)</li>
+<li><p>Therefore, ggplot is not «really» compatible with the default plot-functions</p></li>
+<li><p>Plots are drawn in layers that are stacked on top of each other</p></li>
+<li><p>To create a plot we either use the <strong>qplot()</strong> or <strong>ggplot()</strong> function</p></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>qplot vs ggplot</h2></hgroup><article  id="qplot-vs-ggplot">
+
+<ul>
+<li>In general, qplot() is used for standard plots without much configuration</li>
+<li>The ggplot() syntax allows more specific plot definitions, but seems to be a little bit more complicated at first</li>
+</ul>
+
+<blockquote>
+<p>However, once you understand the underlying principle, the ggplot syntax is easy to comprehend and very well suited for more complex plots.</p>
+</blockquote>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># histogram with qplot
+qplot(clarity, data=diamonds, fill=cut, geom=&quot;bar&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/qplot%20vs%20ggplot-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># histogram with ggplot -&gt; same output
+ggplot(diamonds, aes(clarity, fill=cut)) + geom_bar()</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/qplot%20vs%20ggplot-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>How to use qplot to quickly create some nice graphs</h2></hgroup><article  id="how-to-use-qplot-to-quickly-create-some-nice-graphs">
+
+<p><strong>Important note: ggplot (and qplot for that matter) always expect the data to be in a data.frame</strong></p>
+
+<p>The syntax for qplot is <code>qplot(«x-axis», «y-axis», data=«data.frame», ..)</code></p>
+
+<p>The ggplot2 package has an extendable <code>fortify</code> method which can be used to convert R-objects to data-frames for plotting.</p>
+
+<p>Some useful fortify methods are already availabe in the package. More can be found in the <code>ggfortify</code> package on github.</p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># quickly create a scatterplot of our data
+qplot(wt, mpg, data=mtcars)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/data%20transformation-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># data can be transformed with functions
+qplot(log(wt), mpg-10, data=mtcars)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/data%20transformation-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># plots can be further refined by using additional parameters
+# note: we are mapping the variable «qsec» to a color
+qplot(wt, mpg, data=mtcars, color=qsec)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/variable%20mapping-1.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Mapping variables into the plot</h2></hgroup><article  id="mapping-variables-into-the-plot">
+
+<p>Plot-attributes such as color, point, shape, etc. are called aesthetics.</p>
+
+<p>With qplot(), assigning a variable to an aesthetic will map the values of the variable into the value-space of the aesthetic.</p>
+
+<p>Note: Both the american «color» and british «colour» are supported in most cases.</p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># color and colour will work for most cases
+qplot(wt, mpg, data=mtcars, color=qsec)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/mapping%20vs%20setting-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># note: colour instead of color
+qplot(wt, mpg, data=mtcars, colour=qsec)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/mapping%20vs%20setting-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># note: in this example ggplot is trying to map the size of a point 
+#  to a scale of [10] (which is probably not as intended)
+qplot(wt, mpg, data=mtcars, color=qsec, size=10)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/mapping%20vs%20setting-3.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># use the I() function «as is» to set aesthetics instead of mapping
+qplot(wt, mpg, data=mtcars, color=qsec, size=I(10))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/mapping%20vs%20setting-4.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># side note: it is possible to use alpha-blending for overlapping elements
+qplot(wt, mpg, data=mtcars, color=qsec, size=I(10), alpha=qsec)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/alpha%20transparency-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># note: alpha-opacity is set between 0 (transparent) and 1 (opaque)
+qplot(wt, mpg, data=mtcars, color=qsec, size=I(10), alpha=I(0.5))       </pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/alpha%20transparency-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># we take a closer look at the variable cyl from the dataset mtcars
+# note: the variable is stored as a continuous number not as a factor
+head(mtcars)</pre>
+
+<pre >##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</pre>
+
+<pre class = 'prettyprint lang-r'>summary(mtcars$cyl)</pre>
+
+<pre >##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   4.000   4.000   6.000   6.188   8.000   8.000</pre>
+
+<pre class = 'prettyprint lang-r'>table(mtcars$cyl)</pre>
+
+<pre >## 
+##  4  6  8 
+## 11  7 14</pre>
+
+<pre class = 'prettyprint lang-r'># regular numeric variables will be mapped to a continuous scale
+qplot(wt, mpg, data=mtcars, color=cyl)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/discrete%20vs%20continuous%20scale-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># factored variables will be displayed with a discrete scale
+qplot(wt, mpg, data=mtcars, color=factor(cyl))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/discrete%20vs%20continuous%20scale-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2> Some further qplot examples</h2></hgroup><article  id="some-further-qplot-examples">
+
+<pre class = 'prettyprint lang-r'># ggplot will try to guess the «correct» plot for your data
+qplot(wt, mpg, data=mtcars)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/auto%20plot%20selection-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>qplot(factor(cyl), data=mtcars)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/auto%20plot%20selection-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># a specific type of plot can be set with the attribute geom=«type»
+qplot(wt, mpg, data=mtcars, geom=&quot;point&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/setting%20the%20type%20of%20plot-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>qplot(wt, mpg, data=mtcars, geom=&quot;line&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/setting%20the%20type%20of%20plot-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># plot-types can be combined
+qplot(wt, mpg, data=mtcars, geom=c(&quot;line&quot;, &quot;point&quot;))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/multiple%20plot%20types-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># note: problem if only size of points should be increased
+qplot(wt, mpg, data=mtcars, geom=c(&quot;line&quot;, &quot;point&quot;), size=I(2))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/multiple%20plot%20types-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># pro-tipp: resort to ggplot syntax (more on that later)
+qplot(wt, mpg, data=mtcars) + geom_line() + geom_point(size=4)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/multiple%20plot%20types-3.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># a plot can be flipped by 90°
+# note: coord_flip() will rotate the plot after calculation of 
+#  any summary statistics (i.e. smoothers or alike)
+qplot(factor(cyl), data=mtcars)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/flipping%20the%20plot%20by%2090%c2%b0-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>qplot(factor(cyl), data=mtcars) + coord_flip()</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/flipping%20the%20plot%20by%2090%c2%b0-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># difference between fill/color bars
+qplot(factor(cyl), data=mtcars, fill=factor(cyl))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/fill%20vs%20color-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>qplot(factor(cyl), data=mtcars, color=factor(cyl))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/fill%20vs%20color-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># use different position properties for bars (stacked, dodged, fill, identity)
+head(diamonds)</pre>
+
+<pre >##   carat       cut color clarity depth table price    x    y    z
+## 1  0.23     Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43
+## 2  0.21   Premium     E     SI1  59.8    61   326 3.89 3.84 2.31
+## 3  0.23      Good     E     VS1  56.9    65   327 4.05 4.07 2.31
+## 4  0.29   Premium     I     VS2  62.4    58   334 4.20 4.23 2.63
+## 5  0.31      Good     J     SI2  63.3    58   335 4.34 4.35 2.75
+## 6  0.24 Very Good     J    VVS2  62.8    57   336 3.94 3.96 2.48</pre>
+
+<pre class = 'prettyprint lang-r'>qplot(clarity, data=diamonds, geom=&quot;bar&quot;, fill=cut, position=&quot;stack&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/position%20adjustments-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>qplot(clarity, data=diamonds, geom=&quot;bar&quot;, fill=cut, position=&quot;dodge&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/position%20adjustments-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>qplot(clarity, data=diamonds, geom=&quot;bar&quot;, fill=cut, position=&quot;fill&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/position%20adjustments-3.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>qplot(clarity, data=diamonds, geom=&quot;bar&quot;, fill=cut, position=&quot;identity&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/position%20adjustments-4.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>The ggplot syntax </h2><h3> (or building plots layer by layer)</h3></hgroup><article  id="the-ggplot-syntax-or-building-plots-layer-by-layer">
+
+<p>The ggplot syntax is used to build a plot layer by layer. Usually, the following steps are involved</p>
+
+<ul>
+<li>Defining the data to be used in the plot with <code>ggplot(«data.frame»)</code></li>
+<li>Specifing the visual representation of the data with geoms, i.e. <code>geom_point()</code> or <code>geom_line()</code></li>
+<li>Specifing the features or aestethics to represent the values in the plot with <code>aes()</code></li>
+<li>Optionally modifying scales, labels or adding additional layers</li>
+</ul>
+
+<blockquote>
+<p>Note: The underlying data is always the same for all layers - although there is a workaround that you should only rarely use</p>
+</blockquote>
+
+</article></slide><slide class=''><hgroup><h2>Building a plot</h2></hgroup><article  id="building-a-plot">
+
+<pre class = 'prettyprint lang-r'># we are going to use some pressure data
+## head(pressure)
+
+# nothing happens if we only define our data
+ggplot(pressure)</pre>
+
+<pre >## Error: No layers in plot</pre>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># but we can quickly add a representation
+# note: the aes() function is used for variable mapping
+ggplot(pressure) + geom_point(aes(x=temperature, y=pressure))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/ggplot2 syntax (2)-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># as x and y are used so often, we can leave it of
+# note: for later maintenance it is usually better to specify it
+ggplot(pressure) + geom_point(aes(temperature, pressure))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/ggplot2 syntax (2)-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># note: you can access the previously created plot with «last_plot()»
+last_plot()</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/ggplot2 syntax (2)-3.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># specify a value allocation outside of the aes() function
+# if an aestetic should be set to a specific value
+ggplot(pressure) + geom_point(aes(temperature, pressure), size=4)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/defining%20aesthetics-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># aesthetics can also be defined separately
+ggplot(pressure) + aes(temperature, pressure) + geom_point(size=4)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/defining%20aesthetics-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># create some normal distributed test data
+tmp &lt;- data.frame(x=rnorm(4000), y=rnorm(4000))
+p.myplot &lt;- ggplot(tmp, aes(x,y))
+
+# default plotting
+p.myplot + geom_point(color=&quot;red&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/dealing%20with%20overplotting-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># plotting using hollow circles
+p.myplot + geom_point(shape=1, color=&quot;red&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/dealing%20with%20overplotting-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># plotting using pixels
+p.myplot + geom_point(shape=&quot;.&quot;, color=&quot;red&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/dealing%20with%20overplotting-3.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># plotting using alpha transparency
+# note: requires the scales package (included with ggplot2)
+p.myplot + geom_point(color=scales::alpha(&quot;red&quot;, 1/2))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/dealing%20with%20overplotting-4.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>p.myplot + geom_point(color=scales::alpha(&quot;red&quot;, 1/6))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/dealing%20with%20overplotting-5.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># ggplot will actually return an object that can be modified
+# note: the object can also be saved for later use with save()
+#   saving a plot or layer definitions will also include the plot data
+p.myplot &lt;- ggplot(pressure)
+
+# summary information about the plot
+summary(p.myplot)</pre>
+
+<pre >## data: temperature, pressure [19x2]
+## faceting: facet_null()</pre>
+
+<pre class = 'prettyprint lang-r'># adding some additional layers
+p.myplot &lt;- p.myplot + aes(temperature, pressure) + geom_point(size=4)
+summary(p.myplot)</pre>
+
+<pre >## data: temperature, pressure [19x2]
+## mapping:  x = temperature, y = pressure
+## faceting: facet_null() 
+## -----------------------------------
+## geom_point: na.rm = FALSE, size = 4 
+## stat_identity:  
+## position_identity: (width = NULL, height = NULL)</pre>
+
+<pre class = 'prettyprint lang-r'># the plot can be printed by just calling the object or using print()
+p.myplot</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/ggplot%20objects-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>print(p.myplot)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/ggplot%20objects-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># the underlying data is saved within the ggplot-object. modifications of 
+# the data will not alter the plot if the plot-code is not rerun.
+# there is however a special syntax to run the plot with updated data
+pressure2 &lt;- data.frame(
+    &quot;temperature&quot;=pressure$temperature, &quot;pressure&quot;=log(pressure$pressure))
+
+# print the plot with updated data
+p.myplot %+% pressure2</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/updating%20the%20underlying%20data-1.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># a plot can be exported using ggsave
+# note: the respective rendering device needs to be installed
+ggsave(file=&quot;testplot.pdf&quot;, plot=p.myplot, width=10, height=5)
+ggsave(file=&quot;testplot.svg&quot;, plot=p.myplot, width=10, height=5)
+ggsave(file=&quot;testplot.png&quot;, plot=p.myplot, dpi=72, width=10, height=5)</pre>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># let&#39;s define a base plot and aesthetic-mapping
+p.myplot &lt;- ggplot(pressure) + aes(x=temperature, y=pressure)
+
+# using multiple layers
+p.myplot + 
+    geom_point(color=&quot;purple3&quot;, size=6) + 
+    geom_line(color=&quot;steelblue2&quot;, size=2)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/order%20of%20layers-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># the order of the layers does mather 
+# (each new layer is drawn on top of the previous)
+p.myplot + 
+    geom_line(color=&quot;steelblue&quot;, size=2) +
+    geom_point(color=&quot;purple3&quot;, size=6)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/order%20of%20layers-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># aesthetics defined in the base layer will be used for all layers
+# note: setting attributes to a value will not apply it to other layers
+ggplot(pressure, aes(x=temperature, y=pressure), color=&quot;red&quot;) + 
+    geom_line(size=4, alpha=0.3) + 
+    geom_point(size=4)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/aesthetics%20and%20settings%20for%20multiple%20layers-1.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># the actual arguments to map variables is mapping=«aes()» and 
+# geom_params=«list()» to set variables respectively
+ggplot(pressure) + 
+    geom_point(
+        mapping=aes(x=temperature, y=pressure, color=factor(temperature)),
+        geom_params=list(size=4, shape=18)
+    )</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/ggplot%20layer%20arguments-1.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Various syntax options</h2></hgroup><article  id="various-syntax-options">
+
+<blockquote>
+<p>qplot() ggplot() geom_«type»() layer()</p>
+</blockquote>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># it is possible to mix qplot and ggplot
+qplot(temperature, pressure, data=pressure, geom=&quot;line&quot;, lty=I(&quot;dashed&quot;)) + 
+    geom_point(size=4)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/various%20syntax%20options-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># there is also a different syntax with layer()
+ggplot(pressure, aes(temperature, pressure)) +
+    layer(geom=&quot;line&quot;, mapping=aes(color=temperature), size=4) +
+    layer(geom=&quot;point&quot;, size=4, color=&quot;purple3&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/various%20syntax%20options-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># let&#39;s use some additional data in the plot
+# note: the scales of the different datasets are unified
+ggplot(pressure) +
+    aes(x=temperature, y=pressure) +
+    layer(geom=&quot;line&quot;, mapping=aes(color=temperature), size=4) +
+    geom_point(data=mtcars, aes(hp, disp), color=&quot;purple3&quot;, size=3)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/various%20syntax%20options-3.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2> Scales</h2></hgroup><article  id="scales">
+
+<p>Scales are required to give the plot reader a sense of reference and thus encompass the ideas of both axes and legends on plots.</p>
+
+<p>ggplot2 will usually automatically chose appropriate scales and display legends if necessary.</p>
+
+<p>It is however, very easy to override or modify the default values.</p>
+
+<p>The scale syntax is scale_«attribute»_«optional subspecification»() i.e. <code>scale_x_continuous()</code> or <code>scale_x_discrete()</code></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># setup our plot with default scales
+p.myplot &lt;- ggplot(pressure) + 
+    aes(temperature, pressure, color=factor(temperature)) +
+    geom_point(size=4)
+
+# scales can be limited to a certain range
+p.myplot</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/scales-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>p.myplot + scale_x_continuous(&quot;Temperature&quot;, limits=c(200, 400))</pre>
+
+<pre >## Warning in loop_apply(n, do.ply): Removed 10 rows containing missing values
+## (geom_point).</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/scales-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># scales that are used as axes will take the name as axis label
+p.myplot + 
+    scale_color_discrete(name=&quot;Temperature \nin C°&quot;) + 
+    scale_y_continuous(name=&quot;Air pressure at sea level&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/scales-3.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># legends can also be removed (if not important to understand the plot)
+p.myplot + scale_color_discrete(guide=&quot;none&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/scales-4.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># setup a different plot
+p.myplot &lt;- ggplot(diamonds, aes(cut, fill=color)) + geom_bar()
+p.myplot</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/naming%20scales%20and%20legends-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># the axis can be renamed using two different methods
+p.myplot + xlab(&quot;Diamond Cut&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/naming%20scales%20and%20legends-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>p.myplot + scale_x_discrete(name=&quot;Diamond Cut Description&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/naming%20scales%20and%20legends-3.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>p.myplot + scale_y_continuous(name=&quot;Number of Diamonds&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/naming%20scales%20and%20legends-4.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># names of legends can also be set
+p.myplot + scale_fill_discrete(name=&quot;Diamond Color&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/naming%20scales%20and%20legends-5.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># using some custom colors
+# note: brewer colors were created for good readable maps and often provide
+#  a good alternative to the standard colors. to see all available brewer
+#  palettes use «RColorBrewer::display.brewer.all()»
+p.myplot + scale_fill_grey()</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/color%20scales-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>p.myplot + scale_fill_hue()</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/color%20scales-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>p.myplot + scale_fill_brewer()</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/color%20scales-3.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>p.myplot + scale_fill_brewer(type=&quot;seq&quot;, palette=&quot;3&quot;)</pre>
+
+<pre >## Warning in pal_name(palette, type): Unknown palette 3</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/color%20scales-4.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>p.myplot + scale_fill_brewer(palette=&quot;Paired&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/color%20scales-5.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># using a custom color palette with specified order
+# note: color values should be specified as hex or color names
+p.myplot + aes(fill=cut) + scale_fill_manual(
+    values = c(&quot;#7fc6bc&quot;,&quot;#083642&quot;,&quot;#b1df01&quot;,
+                         &quot;#cdef9c&quot;,&quot;#466b5d&quot;, &quot;#744db5&quot;, &quot;#ccb2e8&quot;))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/custom%20color%20scales-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># using predefinded colors for specific values
+# note: values that are not present in the data will not be shown
+p.myplot + aes(fill=cut) + scale_fill_manual(
+    values = c(&quot;Fair&quot;=&quot;#083642&quot;, &quot;Good&quot;=&quot;#466b5d&quot;, 
+                         &quot;Very Good&quot;=&quot;#7fc6bc&quot;,&quot;Premium&quot;=&quot;#cdef9c&quot;, 
+                         &quot;Ideal&quot;=&quot;#b1df01&quot;, &quot;Not specified&quot;=&quot;#ffffff&quot;))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/custom%20color%20scales-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># removing values from the legend and custom labelling of values
+# note: you must specify colors for all existing values
+p.myplot + scale_fill_manual(
+    name=&quot;Colors&quot;,
+    values = c(&quot;D&quot;=&quot;#083642&quot;, &quot;E&quot;=&quot;#466b5d&quot;, &quot;F&quot;=&quot;#7fc6bc&quot;,&quot;G&quot;=&quot;#cdef9c&quot;, 
+                         &quot;H&quot;=&quot;#b1df01&quot;, &quot;I&quot;=&quot;#ababab&quot;, &quot;J&quot;=&quot;#ececec&quot;),
+    breaks = c(&quot;D&quot;, &quot;E&quot;, &quot;F&quot;),
+    labels = c(&quot;E&quot;=&quot;Dark Green&quot;, &quot;D&quot;=&quot;Esmerald&quot;, &quot;F&quot;=&quot;Wood&quot;))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/custom%20color%20scales-3.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># legends can also be styled using guides
+# note: guides can be defined once and be easily applied to multiple plots
+p.mylegend &lt;- guide_legend(
+        title=&quot;Color of the \nDiamond&quot;,
+        title.position=&quot;top&quot;,
+        direction=&quot;horizontal&quot;,
+        label.position=&quot;top&quot;,
+        label.hjust=0.5,
+        label.vjust=0.5,
+        ncol=2,
+        byrow=TRUE,
+    )
+
+# apply some styling to the legend
+p.myplot + guides(fill = p.mylegend)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/modify%20legends-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>p.myplot + scale_fill_discrete(guide=p.mylegend)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/modify%20legends-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># handling problems with alpha transparency
+p.myplot + aes(alpha=color)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/handling%20transparency%20in%20legends-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># remove the alpha transparency for the legend
+p.myplot + aes(alpha=color) + 
+    guides(fill = guide_legend( override.aes=list(alpha=1) ))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/handling%20transparency%20in%20legends-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># limiting scales will remove all points that are outside of the scale
+# note: be careful, this is not the same as just focusing on a graph region
+p.myplot + scale_y_continuous(limits=c(0,15000))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/limits%20vs%20zooming%20in-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># to focus on a specific region, the coord_cartesian() function
+#  should be used with the specified limits
+p.myplot + coord_cartesian(ylim=c(0,15000))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/limits%20vs%20zooming%20in-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Statistical transformations</h2></hgroup><article  id="statistical-transformations">
+
+<p>Some graphical representations do not use the raw data directly, but perform a statistical transformation - i.e. binning.</p>
+
+<p>Several transformations are included in the ggplot2 package and can be called with the stat_«transformation»() functions.</p>
+
+<p>Examples are <code>stat_bin</code>, <code>stat_boxplot</code>, <code>stat_qq</code>, <code>stat_unique</code>, <code>stat_smooth</code>, <code>stat_summary</code> and more</p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># histograms will use stat_bin to calculate number of items per bin
+ggplot(mtcars) + aes(qsec) + geom_histogram(binwidth=0.5)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/histogram%20statistics-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>ggplot(mtcars) + aes(qsec) + geom_histogram(binwidth=1)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/histogram%20statistics-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># define a base plot to illustrate smoothed lines
+p.myplot &lt;- ggplot(mtcars) + aes(x=disp, y=mpg) + geom_point(size=4)
+p.myplot</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/regressions/smoothers-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># draw a smooth line (local regression function) through the points
+# note: the default smoothing function is loess
+p.myplot + geom_line(stat=&quot;smooth&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/regressions/smoothers-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># using the smooth geom with standard deviation
+p.myplot + geom_smooth()</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/regressions/smoothers-3.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># fit the regression closer to the data with span=«0-1»
+p.myplot + geom_smooth(span=0.4)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/regressions/smoothers-4.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>p.myplot + geom_smooth(span=1)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/regressions/smoothers-5.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># turning off the confidence interval
+# note: the attribute level can be used to set ci-level
+p.myplot + geom_smooth(se=FALSE)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/regressions/smoothers-6.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># using a different method for smoothing (i.e. linear modelling)
+p.myplot + geom_smooth(method=&quot;lm&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/regression%20methods-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># using a cutom formular for fitting
+library(splines)
+p.myplot + geom_smooth(method=&quot;lm&quot;, formula = y ~ ns(x,5))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/regression%20methods-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># be careful when flippling a plot
+# note: details on transformations on the following slide
+p.myplot + geom_smooth()</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/regression%20methods-3.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>p.myplot + geom_smooth() + coord_flip()</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/regression%20methods-4.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>p.myplot + aes(x=mpg, y=disp) + geom_smooth()</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/regression%20methods-5.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Scale and coordinate transformations</h2></hgroup><article  id="scale-and-coordinate-transformations">
+
+<p>Values can be transformed either before or after any stats-functions are applied.</p>
+
+<p>Use scale transformations to apply a transformation before any stats-function are applied.</p>
+
+<p>Use coordinate transformations to apply a transformation after all stats- functions are applied (note: <code>coord_flip()</code> is a coordinate transformation).</p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># define a base plot to illustrate transformation 
+p.myplot &lt;- ggplot(mtcars) + aes(x=disp, y=mpg) + geom_point(size=4) +
+    geom_smooth(method=&quot;lm&quot;, se=FALSE)
+
+# take a look at linear regression plot
+p.myplot</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/scale%20and%20coord%20transformations-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># apply a logarhithmic transformation 
+p.myplot + scale_x_continuous(trans=&quot;log&quot;, name=&quot;log(disp)&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/scale%20and%20coord%20transformations-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># apply a log-transformation on the y-axis, add a linear regression and
+# transform the display of the scale back with exponentation
+p.myplot + scale_x_continuous(trans=&quot;log&quot;) + 
+    coord_trans(x=&quot;exp&quot;) +
+    xlab(&quot;exp(log(disp)) = disp&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/scale%20and%20coord%20transformations-3.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># adjust the y-scale breaks to match our original non transformed plot
+p.myplot + scale_x_continuous(trans=&quot;log&quot;, breaks=seq(100,400,100)) + 
+    coord_trans(x=&quot;exp&quot;) +
+    xlab(&quot;exp(log(disp)) = disp&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/scale%20and%20coord%20transformations-4.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Subgroups </h2><h3> Groups and Facets</h3></hgroup><article  id="subgroups-groups-and-facets">
+
+<p>The ggplot2 package provides two interesting functionalities to look at subgroups in your data.</p>
+
+<p>The <code>group</code> aesthetic is useful if there are only two or three groups and there is a summary statistic that should be calculated per group and displayed in one chart.</p>
+
+<p>Facettings on the other hand is useful to split the data into different groups that are displayed next to each other.</p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># split data to create frequency polygon for each subgroup
+qplot(clarity, data=diamonds, geom=&quot;bar&quot;, fill=cut, position=&quot;dodge&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/grouping%20of%20variables-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>qplot(clarity, data=diamonds, geom=&quot;freqpoly&quot;, group=cut, color=cut, position=&quot;identity&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/grouping%20of%20variables-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># split the data by a variable and calculate a regression for each group
+ggplot(mtcars, aes(x=disp, y=mpg, color=factor(am))) + geom_point(size=4) +
+    geom_smooth(aes(group=factor(am)), method=&quot;lm&quot;, se=FALSE, lty=&quot;dashed&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/grouping%20of%20variables-3.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># use facets to split the data
+p.myplot &lt;- ggplot(mtcars) +
+    aes(x=disp, y=mpg, color=factor(am)) + 
+    geom_point(size=4) +
+    geom_smooth(method=&quot;lm&quot;, se=FALSE, lty=&quot;dashed&quot;)
+
+# facet_wrap will wrap the specified panels
+p.myplot + facet_wrap(~ am, nrow=1)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/facets-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'>p.myplot + facet_wrap(~ am, ncol=1)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/facets-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># per default the scales of the different panels will match
+# it is however possible to use adaptive panes
+# note: more options can be found in the documentation
+p.myplot + facet_wrap(~ am, nrow=1, scales=&quot;free&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/facets-3.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># facet_grid can be used to split by two variables
+p.myplot + facet_grid(cyl ~ am)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/facet-grid%20syntax-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># it is even possible to add margin calculations
+p.myplot + facet_grid(cyl ~ am, margins=TRUE)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/facet-grid%20syntax-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Annotations</h2></hgroup><article  id="annotations">
+
+<p>Annotations can be added as separate layers that will not influence the scales or legends</p>
+
+<pre class = 'prettyprint lang-r'># setup plot to illustrate annotations
+p.myplot = ggplot(mtcars, aes(x = wt, y = mpg))
+
+# plot without annotations
+p.myplot + geom_point(size=4, color=&quot;purple3&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/annotations-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># a plot with some simple annotations
+p.myplot + 
+    annotate(&quot;rect&quot;, 
+                     fill=&quot;lightsteelblue&quot;, alpha=0.4,
+                     xmin=3, xmax=4, ymin=12, ymax=20.5) + 
+    annotate(&quot;segment&quot;, 
+                     size = 1, color=&quot;steelblue&quot;, 
+                     arrow = grid::arrow(length=grid::unit(1, &quot;char&quot;)),
+                     x=4.73, y=30.5, xend=3.8, yend=21) +
+    annotate(&quot;text&quot;, label=&quot;A custom region&quot;, 
+                     x=4.32, y=31.2, hjust=0, vjust=0, color=&quot;steelblue&quot;, size=6) + 
+    geom_point(size=4, color=&quot;purple3&quot;)  </pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/annotations-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<p>Unfortunately, it is currently not possible to paint textures or patterns as backgrounds with the ggplot2 package.</p>
+
+<p>However, we may easily define our own pattern creating function.</p>
+
+<pre class = 'prettyprint lang-r'># we create a function, that will calculate the coordinates for stripes that
+# are contained to the given rect coordinates
+# note: this involves some trigonometry and is outside 
+#   the scoope of this tutorial
+stripesInRect &lt;- function(angle=45, distance=0.5, xmin=0, xmax=10, ymin=0, ymax=10) {
+    # this function will calculate a data.frame of vectors for a
+    # stripped background in a rectangular area
+
+    # convert angle from degree to radians
+    radians &lt;- (pi / 180) * angle
+
+    # calculate the tangens
+    tangens &lt;- tan(radians)
+
+    # calculate height und width of the clippling box
+    height &lt;- ymax - ymin
+    width &lt;- xmax - xmin
+
+    # calculate the horizontal distance of the lines
+    horizontalDistance = distance / tangens
+
+    # calculate the difference of start-y to end-y for full width
+    verticalDifference &lt;- tangens * width
+
+    # steps for the height and width
+    stepsHeight = seq(from = ymin, to = ymax, by = distance)
+    stepsWidth = seq(from = xmin, to = xmax, by = horizontalDistance)
+
+    # initialize a data frame of coordinates
+    # note: distance is used for distance of lines when cutting
+    #   through the side of the box
+    # note: we have to remove the first step from the widthsteps
+    #  to avoid a duplicated start line
+    data &lt;- data.frame(
+        &quot;x1&quot; = c(rep(xmin, times = length(stepsHeight)), stepsWidth[-1]),
+        &quot;y1&quot; = c(stepsHeight, rep(ymin, length(stepsWidth))[-1] ))
+
+    # define a function to calculate the endpoints
+    calculateEndpoint &lt;- function(x1, y1) {
+
+        # calculate the maximal available width for the x range
+        availableWidthRange &lt;- xmax - x1
+
+        if (availableWidthRange &gt;= width) {
+            # calculation of lines that start from the left side
+
+            # calculate the maximal available height for the y range
+            availableHeightRange &lt;- ymax - y1
+
+            # we are done if the vertical-side fits into the rect
+            if (availableHeightRange &gt;= verticalDifference) {
+                return(c(
+                    &quot;x2&quot; = xmax,
+                    &quot;y2&quot; = y1 + verticalDifference))
+            }
+
+            # otherwise we have to adapt to the available height
+            horizontalDifference &lt;- availableHeightRange / tangens
+
+            return(c(
+                &quot;x2&quot; = x1 + horizontalDifference,
+                &quot;y2&quot; = ymax))
+
+        } else {
+            # calculation of lines that start from the bottom side
+
+            # calculate the vertical difference
+            verticalDifference &lt;- availableWidthRange * tangens
+
+            return(c(
+                &quot;x2&quot; = xmax,
+                &quot;y2&quot; = y1 + verticalDifference
+                ))
+
+        }
+
+    }
+
+    # calculate the endpoints
+    endpoints &lt;- mapply(calculateEndpoint, data$x1, data$y1)
+
+    # extract the endpoint coordinates
+    data$x2 &lt;- endpoints[1,]
+    data$y2 &lt;- endpoints[2,]
+
+    return(data)
+}
+
+
+# calculate the pattern coordinates for our plot
+pattern &lt;- stripesInRect(angle=80, distance=0.25, 
+        xmin=3, xmax=4, ymin=12, ymax=20.5)
+
+# create the plot with a striped background for the annotation
+# note: annotation aesthetics are not mapped but will be processed as vectors
+p.myplot + 
+    annotate(&quot;segment&quot;, 
+                     size = 0.5, color=&quot;deeppink&quot;, alpha=0.25,
+                     x=pattern$x1, y = pattern$y1, 
+                     xend = pattern$x2, yend = pattern$y2) + 
+    annotate(&quot;segment&quot;, 
+                     size = 1, color=&quot;deeppink&quot;, 
+                     arrow = grid::arrow(length=grid::unit(1, &quot;char&quot;)),
+                     x=4.73, y=30.5, xend=3.8, yend=21) +
+    annotate(&quot;text&quot;, label=&quot;A custom region&quot;, 
+                     x=4.32, y=31.2, hjust=0, vjust=0, color=&quot;deeppink&quot;, size=6) + 
+    geom_point(size=4, color=&quot;purple3&quot;)  </pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/drawing%20a%20striped%20pattern-1.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2>Themes</h2></hgroup><article  id="themes">
+
+<p>The ggplot2 package separates the data-part of the plot from the non-data part.</p>
+
+<p>The collection of graphical parameters used to control non-data elements - such as the background-color, font-sizes, .. - are controlled in so called themes</p>
+
+<p>It is possible to create custom themes that can be applied to multiple plots easily.</p>
+
+<p>Use the function <code>theme_set(«theme»)</code> to set a global theme for all plots.</p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># define our plot to illustrate theming
+p.myplot &lt;- ggplot(pressure) + 
+    aes(temperature, pressure, color=factor(temperature)) +
+    geom_point(size=4)
+
+# plotting using the default theme
+p.myplot</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/theme%20example-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># plotting using a black &amp; white theme
+# note: the theme does not change the aesthetics controlled by data
+p.myplot + theme_bw()</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/theme%20example-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># modifiying specific elements of a theme
+# note: more options can be found in the documentation
+#  theme modifications may require some understanding of the grid-package
+p.myplot + theme(
+    legend.position=&quot;top&quot;, 
+    legend.margin=grid::unit(1, &quot;cm&quot;))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/custom%20theme%20modifications-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># legends usually need some further specific adjustments
+p.myplot + theme(
+    legend.position=&quot;bottom&quot;, 
+    legend.margin=grid::unit(1, &quot;cm&quot;)) +
+ guides(
+    color=guide_legend(&quot;Temperature&quot;, nrow=2, 
+                                         title.position=&quot;top&quot;, byrow=TRUE))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/custom%20theme%20modifications-2.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># use combination of geoms and specific stat for bin calculation
+# note: values from stat-calculations can be accessed via ..«parameter»..
+ggplot(mtcars) + aes(x=factor(gear)) + 
+    layer(
+        stat = &quot;bin&quot;,
+        geom = &quot;linerange&quot;, 
+        geom_params = list(ymin=0, size=0.5, color=&quot;blue&quot;), 
+        mapping = aes(ymax=..count..)) +
+    layer(
+        stat = &quot;bin&quot;,
+        geom = &quot;point&quot;,
+        geom_params = list(size=3, color=&quot;blue&quot;)) +
+    layer(
+        stat = &quot;bin&quot;,
+        geom = &quot;text&quot;,
+        geom_params = list(vjust=-0.8, color=&quot;blue&quot;),
+        mapping = aes(label=..count..)) +
+    coord_flip() + theme_bw()</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/barplot%20like%20lattice-1.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># we can also define the configuration in a custom function
+latticebars &lt;- function(color = &quot;blue&quot;) {
+    layer1 &lt;- layer(
+        geom = &quot;linerange&quot;, stat = &quot;bin&quot;,
+        mapping = aes(ymax=..count..),
+        geom_params = list(ymin=0, size=0.5, color=color))
+        
+    layer2 &lt;- layer(
+        geom = &quot;point&quot;, stat = &quot;bin&quot;, 
+        geom_params = list(size=3, color=color))
+    
+    layer3 &lt;- layer(
+         geom = &quot;text&quot;, stat = &quot;bin&quot;,
+        mapping = aes(label=..count..),
+        geom_params = list(vjust=-0.8, color=color))
+        
+    # note: ggplot2 elements can also be combined by creating
+    #  a list of the separate components. +-symbol might
+    #  throw an error if used inside of a function
+    return(list(layer1,layer2,layer3, coord_flip(), theme_bw()))
+}
+
+# create a lattice like barplot with default color
+ggplot(mtcars) + aes(x=factor(gear)) + 
+    latticebars()</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/a%20resusable%20lattice-like%20barplot%20function-1.png" title="" alt="" width="720" /></p>
+
+<pre class = 'prettyprint lang-r'># easily change the color of the plot
+ggplot(mtcars) + aes(x=factor(gear)) + 
+    latticebars(&quot;red&quot;) + 
+    xlab(&quot;Type of Gear\n&quot;) + ylab(&quot;\nNumber of Items&quot;)</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/a%20resusable%20lattice-like%20barplot%20function-2.png" title="" alt="" width="720" /></p>
+
+</article></slide><slide class=''><hgroup><h2> Multiple plots in one graphic</h2></hgroup><article  id="multiple-plots-in-one-graphic">
+
+<p>Ggplot2 is based on the grid-package. Therefore, it is possible to fit multiple plots on the same page using the <code>viewports</code> functionality.</p>
+
+<p>Further information about using viewports is available in the grid-package documentation.</p>
+
+<pre class = 'prettyprint lang-r'># we are going to need the grid package
+require(&quot;grid&quot;)</pre>
+
+<pre class = 'prettyprint lang-r'># convenience function to create multi-plot setup (nrow, ncol)
+vp.setup &lt;- function(x,y){
+    # create a new layout with grid
+    grid.newpage()
+    
+    # define viewports and assign it to grid layout 
+    pushViewport(viewport(layout = grid.layout(x,y)))
+}
+
+# convenience function to easily access layout (row, col)
+vp.layout &lt;- function(x,y){ 
+    viewport(layout.pos.row=x, layout.pos.col=y)
+}</pre>
+
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+
+<pre class = 'prettyprint lang-r'># define three plots to be displayed together
+p.a &lt;- qplot(mpg, wt, data=mtcars, geom=&quot;point&quot;) + theme_bw()
+p.b &lt;- qplot(mpg, wt, data=mtcars, geom=&quot;bar&quot;, stat=&quot;identity&quot;)
+p.c &lt;- qplot(mpg, wt, data=mtcars, geom=&quot;step&quot;)
+
+# setup amulti plot layout with grid (2x2 fields)
+vp.setup(2,2)
+
+# plot all graphics into our layout
+print(p.a, vp=vp.layout(1, 1:2)) 
+print(p.b, vp=vp.layout(2, 1)) 
+print(p.c, vp=vp.layout(2, 2))</pre>
+
+<p><img src="ggplot2-tutorial-2015_files/figure-html/multiple%20plots%20in%20on%20graphic-1.png" title="" alt="" width="720" /></p></article></slide>
+
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script src="ggplot2-tutorial-2015_files/ioslides-13.5.1/js/modernizr.custom.45394.js"></script>
+<script src="ggplot2-tutorial-2015_files/ioslides-13.5.1/js/prettify/prettify.js"></script>
+<script src="ggplot2-tutorial-2015_files/ioslides-13.5.1/js/prettify/lang-r.js"></script>
+<script src="ggplot2-tutorial-2015_files/ioslides-13.5.1/js/prettify/lang-yaml.js"></script>
+<script src="ggplot2-tutorial-2015_files/ioslides-13.5.1/js/hammer.js"></script>
+<script src="ggplot2-tutorial-2015_files/ioslides-13.5.1/js/slide-controller.js"></script>
+<script src="ggplot2-tutorial-2015_files/ioslides-13.5.1/js/slide-deck.js"></script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+<!-- map slide visiblity events into shiny -->
+<script>
+  (function() {
+    if (window.jQuery) {
+       window.jQuery(document).on('slideleave', function(e) {
+         window.jQuery(e.target).trigger('hidden');
+      });
+       window.jQuery(document).on('slideenter', function(e) {
+         window.jQuery(e.target).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+</body>
+</html>
